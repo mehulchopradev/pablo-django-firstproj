@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Contact Us</title>
+  </head>
+  <body>
+    <h2>Get in touch</h2>
+    <hr>
+    <form>
+      <p>
+        <input type="text" placeholder="Enter Email">
+      </p>
+      <p>
+        <input type="text" placeholder="Mobile">
+      </p>
+      <p>
+        <textarea placeholder="Enter Address"></textarea>
+      </p>
+      <p>
+        <input type="submit" value="Submit">
+      </p>
+    </form>
+    <h3>You can also reach us at</h3>
+    <p>
+      Email : {{ email }}
+    </p>
+    <p>
+      Mobile : {{ mobile }}
+    </p>
+    {% for address in addresses %}
+      <p>
+        Country : {{ address.country }}<br>
+        Tel : {{ address.tel }}
+      </p>
+    {% endfor %}
+  </body>
+</html>
