@@ -1,0 +1,9 @@
+Model layer
+
+Django model - ORM entity
+
+ORM (Object Relational Mapping)
+Object   -  RDBMS
+class    - table
+class attributes - columns
+objects   - rows (tuples)

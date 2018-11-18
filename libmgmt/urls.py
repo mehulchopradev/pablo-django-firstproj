@@ -6,6 +6,7 @@ from libmgmt import views
 app_name = 'library'
 
 urlpatterns = [
-    path('home/', views.show_home),
-    path('register/', views.show_register, name='register')
+    path('home/', views.LoginView.as_view(), name='showhome'),
+    path('register/', views.RegisterView.as_view(), name='register'),
+    path('authenticate/', views.auth, name='auth')
 ]

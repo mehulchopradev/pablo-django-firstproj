@@ -10,13 +10,15 @@
     <h2>Welcome to my home</h2>
     <img class="banner" src="{% static 'libmgmt/images/big_data.jpg' %}" alt="">
     <hr>
-    <form>
-      <p>
-        <input type="text" placeholder="Enter Username">
+    <form method="post" action="{% url 'library:showhome' %}" novalidate="novalidate">
+      {% csrf_token %}
+      <!--<p>
+        <input type="text" name="username" placeholder="Enter Username">
       </p>
       <p>
-        <input type="password" placeholder="Enter Password">
-      </p>
+        <input type="password" name="password" placeholder="Enter Password">
+      </p>-->
+      {{ form.as_p }}
       <p>
         <input type="submit" value="Login">
         <a href="{% url 'library:register' %}">New User ? Sign Up</a>

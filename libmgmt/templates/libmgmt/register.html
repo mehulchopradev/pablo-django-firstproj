@@ -4,35 +4,28 @@
   <head>
     <meta charset="utf-8">
     <title>Register</title>
+    <link rel="stylesheet" href="{% static 'libmgmt/vendor/jquery-ui.min.css' %}">
+    <link rel="stylesheet" href="{% static 'libmgmt/vendor/jquery-ui.structure.min.css' %}">
+    <link rel="stylesheet" href="{% static 'libmgmt/vendor/jquery-ui.theme.min.css' %}">
+
+    <script src="{% static 'libmgmt/vendor/jquery.js' %}"></script>
+    <script src="{% static 'libmgmt/vendor/jquery-ui.min.js' %}"></script>
+
     <link rel="stylesheet" href="{% static 'libmgmt/css/app.css' %}">
   </head>
   <body>
     <h2>Register Here!</h2>
     <img class="banner" src="{% static 'libmgmt/images/big_data.jpg' %}" alt="">
     <hr>
-    <form>
-      <p>
-        <input type="text" placeholder="Enter Username">
-      </p>
-      <p>
-        <input type="password" placeholder="Enter Password">
-      </p>
-      <p>
-        Country:
-        <select>
-          {% for country in countries %}
-            <option value="{{country.code}}">{{ country.name }}</option>
-          {% endfor %}
-        </select>
-      </p>
-      <p>
-        Gender:
-        <input type="radio" name="gender">Male &nbsp;
-        <input type="radio" name="gender">Female
-      </p>
+    <form novalidate="novalidate" method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
       <p>
         <input type="submit" value="Register">
       </p>
     </form>
+    <script type="text/javascript">
+      $('.datepicker').datepicker();
+    </script>
   </body>
 </html>
