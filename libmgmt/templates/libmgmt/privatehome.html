@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Welcome to ur home page</title>
+  </head>
+  <body>
+    <span>Welcome ????</span>
+    <h2>Book List</h2>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Pages</th>
+          <th>Price</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for book in booklist %}
+          <tr>
+            <td>{{ book.title }}</td>
+            <td>{{ book.pages }}</td>
+            <td>{{ book.price }}</td>
+            <td>
+              <a href="{% url 'library:bookdetails' book.id %}">Details</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>

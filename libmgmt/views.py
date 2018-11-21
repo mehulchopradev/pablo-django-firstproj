@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from libmgmt.forms import LoginForm, RegisterForm
 from django import views
 from django.views.generic.edit import FormView
 from libmgmt.models import User
+from libmgmt.models import Book
 
 # Create your views here.
 
@@ -52,7 +53,12 @@ class LoginView(FormView):
         # print(data)
         l = User.objects.filter(**data)
         if len(l):
-            return HttpResponse('Valid')
+            print(l[0])
+            # remember the id and username in a session
+            # session is stored in the server memory
+            # session is user browser specific
+            # 1 session object per user browser logged in
+            return HttpResponseRedirect(reverse('library:privatehome'))
         return HttpResponseRedirect('/lib/home/')
 
 class RegisterView(FormView):
@@ -68,6 +74,25 @@ class RegisterView(FormView):
         if u.id:
             return super().form_valid(form)
         return HttpResponseRedirect('/lib/register/')
+
+def show_private_home(request):
+    # retrieve the session (automatically retrieved for the request coming from that specific browser)
+    # retrieved the stored data from the session
+    blist = Book.objects.order_by('price')
+    context = {
+        'booklist': blist
+    }
+
+    return render(request, 'libmgmt/privatehome.html', context)
+
+def show_book(request, book_id):
+    # I need to get the id of the book (From the request), whose details I want to fetch from the database
+    book = Book.objects.get(pk=book_id)
+    context = {
+        'book': book
+    }
+
+    return render(request, 'libmgmt/book.html', context)
 
 '''def show_register(request):
     # imagine u got the countries from the database
