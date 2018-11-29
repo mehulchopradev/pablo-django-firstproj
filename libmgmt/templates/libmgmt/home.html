@@ -1,28 +1,26 @@
-{% load static %}
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Welcome</title>
-    <link rel="stylesheet" href="{% static 'libmgmt/css/app.css' %}">
-  </head>
-  <body>
-    <h2>Welcome to my home</h2>
-    <img class="banner" src="{% static 'libmgmt/images/big_data.jpg' %}" alt="">
-    <hr>
-    <form method="post" action="{% url 'library:showhome' %}" novalidate="novalidate">
-      {% csrf_token %}
-      <!--<p>
-        <input type="text" name="username" placeholder="Enter Username">
-      </p>
-      <p>
-        <input type="password" name="password" placeholder="Enter Password">
-      </p>-->
-      {{ form.as_p }}
-      <p>
-        <input type="submit" value="Login">
-        <a href="{% url 'library:register' %}">New User ? Sign Up</a>
-      </p>
-    </form>
-  </body>
-</html>
+{% extends 'libmgmt/layouts/master_public.html' %}
+
+{% block title %}
+  Welcome
+{% endblock %}
+
+{% block header %}
+  Welcome to my home
+{% endblock %}
+
+{% block mainContent %}
+  <form method="post" action="{% url 'library:showhome' %}" novalidate="novalidate">
+    {% csrf_token %}
+    <!--<p>
+      <input type="text" name="username" placeholder="Enter Username">
+    </p>
+    <p>
+      <input type="password" name="password" placeholder="Enter Password">
+    </p>-->
+    {{ form.as_p }}
+    <p>
+      <input type="submit" value="Login">
+      <a href="{% url 'library:register' %}">New User ? Sign Up</a>
+    </p>
+  </form>
+{% endblock %}

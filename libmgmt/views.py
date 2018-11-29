@@ -53,7 +53,11 @@ class LoginView(FormView):
         # print(data)
         l = User.objects.filter(**data)
         if len(l):
-            print(l[0])
+            # the user authentication succeeded
+            u = l[0]
+            self.request.session['userid'] = u.id
+            self.request.session['username'] = u.username
+
             # remember the id and username in a session
             # session is stored in the server memory
             # session is user browser specific
@@ -76,23 +80,65 @@ class RegisterView(FormView):
         return HttpResponseRedirect('/lib/register/')
 
 def show_private_home(request):
+    if 'username' not in request.session:
+        return HttpResponseRedirect(reverse('library:showhome'))
     # retrieve the session (automatically retrieved for the request coming from that specific browser)
     # retrieved the stored data from the session
+    username = request.session['username']
+    userid = request.session['userid']
+
     blist = Book.objects.order_by('price')
+    for book in blist:
+        users = book.user_set.all()
+        book.cannotissue = False
+
+        if book.count == len(users):
+            book.cannotissue = True
+        else:
+            fusers = [user for user in users if user.id == userid]
+            if len(fusers):
+                book.notissued = False # derived property added in the model
+            else:
+                book.notissued = True # derived property added in the model
     context = {
-        'booklist': blist
+        'booklist': blist,
+        'username': username
     }
 
     return render(request, 'libmgmt/privatehome.html', context)
 
 def show_book(request, book_id):
+    if 'username' not in request.session:
+        return HttpResponseRedirect(reverse('library:showhome'))
+
     # I need to get the id of the book (From the request), whose details I want to fetch from the database
     book = Book.objects.get(pk=book_id)
+    username = request.session['username']
     context = {
-        'book': book
+        'book': book,
+        'username': username
     }
 
     return render(request, 'libmgmt/book.html', context)
+
+def issue_book(request, book_id):
+    book = Book.objects.get(pk=book_id)
+    user = User.objects.get(pk=request.session['userid'])
+
+    user.books_issued.add(book)
+
+    return HttpResponseRedirect(reverse('library:privatehome'))
+
+def return_book(request, book_id):
+    user = User.objects.get(pk=request.session['userid'])
+    user.books_issued.remove(book_id)
+
+    return HttpResponseRedirect(reverse('library:privatehome'))
+
+def logout(request):
+    request.session.flush();
+
+    return HttpResponseRedirect(reverse('library:showhome'))
 
 '''def show_register(request):
     # imagine u got the countries from the database

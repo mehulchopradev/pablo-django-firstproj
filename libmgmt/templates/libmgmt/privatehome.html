@@ -5,7 +5,10 @@
     <title>Welcome to ur home page</title>
   </head>
   <body>
-    <span>Welcome ????</span>
+    <span>
+      Welcome {{ username }}
+      <a href="{% url 'library:logout' %}">Logout</a>
+    </span>
     <h2>Book List</h2>
     <table border="1">
       <thead>
@@ -13,6 +16,7 @@
           <th>Title</th>
           <th>Pages</th>
           <th>Price</th>
+          <th></th>
           <th></th>
         </tr>
       </thead>
@@ -24,6 +28,15 @@
             <td>{{ book.price }}</td>
             <td>
               <a href="{% url 'library:bookdetails' book.id %}">Details</a>
+            </td>
+            <td>
+              {% if book.cannotissue %}
+                <font color="red">Cannot Issue</font>
+              {% elif book.notissued %}
+                <a href="{% url 'library:issue' book.id %}">Issue Book</a>
+              {% else %}
+                <a href="{% url 'library:return' book.id %}">Return Book</a>
+              {% endif %}
             </td>
           </tr>
         {% endfor %}
