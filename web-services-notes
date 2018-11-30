@@ -1,0 +1,32 @@
+REST (Representational State Transfer)
+  - Embraces the HTTP
+  - Resources : Entity that can be created/read/updated/deleted by the web service
+    client, over HTTP in a platform independent way.
+    e.g. book, author, publication-house
+  - URL : The URL for various actions that need to be done on a resource,
+    must be uniform and pluralized of the resource name
+    e.g.
+    books
+    authors
+  - HTTP Methods:
+    Create a new book : /books : POST
+    Getting all the books : /books : GET
+    Update an existing book : /books/<<resource-id>> : PUT
+    Get a particular book : /books/<<resource-id>> : GET
+    Delete a particular book : /books/<<resource-id>> : DELETE
+  - Request Data in the message body:
+    POST : JSON
+    PUT : JSON
+  - Response Data in the message body:
+    POST : JSON
+    PUT : JSON
+    GET : JSON
+  - Response Status Code
+    Success:
+      POST: 201 (CREATED)
+      PUT : 200 (OK)
+      GET : 200 (OK)
+      DELETE : 200 or 204 (NO Content)
+    Error:
+      Server : 5xx
+      Client : 4xx

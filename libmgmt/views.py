@@ -1,12 +1,19 @@
 from django.shortcuts import render, reverse
 from django.http import HttpResponse, HttpResponseRedirect
-from libmgmt.forms import LoginForm, RegisterForm
+from libmgmt.forms import LoginForm, RegisterForm, BookForm
 from django import views
-from django.views.generic.edit import FormView
+from django.views.generic import ListView
+from django.views.generic.edit import FormView, UpdateView
 from libmgmt.models import User
 from libmgmt.models import Book
+from datetime import datetime
 
 # Create your views here.
+
+'''
+def show_aboutus(request):
+    return render(request, 'libmgmt/about-us.html')
+'''
 
 def auth(request):
     print(request.POST['username'])
@@ -43,6 +50,37 @@ def auth(request):
         return render(request, 'libmgmt/home.html', {
             'form': form
         })'''
+
+class BookCreateView(FormView):
+    template_name = 'libmgmt/create-book.html'
+    form_class = BookForm
+
+    def form_valid(self, modelForm):
+        book = modelForm.save()
+        if book.id:
+            return HttpResponse('Success in creating a book')
+        return HttpResponse('Error in creating a book')
+
+class BookUpdateView(UpdateView):
+    model = Book
+    form_class = BookForm
+
+class BookList(ListView):
+    # model = Book # Book.objects.all()
+    # queryset = Book.objects.order_by('-price')
+    context_object_name = 'book_list'
+
+    def get_queryset(self):
+        # extra work like adding derived properties to the book model
+        # can be done here
+        return Book.objects.order_by('-price')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['currentDateTime'] = datetime.now()
+
+        return context
+
 
 class LoginView(FormView):
     template_name = 'libmgmt/home.html'

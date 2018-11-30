@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
 class PublicationHouse(models.Model):
@@ -29,6 +30,9 @@ class Book(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('library:booklist')
 
 class User(models.Model):
     username = models.CharField(max_length=10, null=False)

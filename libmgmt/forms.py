@@ -1,4 +1,10 @@
 from django import forms
+from libmgmt.models import Book
+
+class BookForm(forms.ModelForm):
+    class Meta:
+        model = Book
+        fields = ['title','price','pages','pub_date','count', 'publication']
 
 class LoginForm(forms.Form):
     username = forms.CharField(label='', max_length=10,\

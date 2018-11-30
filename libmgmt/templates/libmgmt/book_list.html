@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>List Books</title>
+  </head>
+  <body>
+    <h1>Book List({{ currentDateTime }})</h1>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Pages</th>
+          <th>Price</th>
+          <th>PubDate</th>
+          <th>Count</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for book in book_list %}
+          <tr>
+            <td>{{ book.title }}</td>
+            <td>{{ book.pages }}</td>
+            <td>{{ book.price }}</td>
+            <td>{{ book.pub_date }}</td>
+            <td>{{ book.count }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>
